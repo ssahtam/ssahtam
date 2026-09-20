@@ -1,6 +1,6 @@
 /* ===== ใส่ค่าจาก Supabase → Project Settings → API ===== */
-const SB_URL = 'https://rcghrysjzggtyfhqqqxr.supabase.co';
-const SB_KEY = 'sb_publishable_x0yhinoAkKnsFxy34vNNIw__KufBHQb';
+const SB_URL = 'zzzz';
+const SB_KEY = 'zzzzz';
 /* ======================================================= */
 
 const sb = supabase.createClient(SB_URL, SB_KEY, {
