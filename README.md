@@ -1,16 +1,15 @@
-## Hi there 👋
+# 👋 สวัสดีครับ ผมชื่อ สหัสวรรษ (Sahatsawat)
+ยินดีต้อนรับสู่หน้า GitHub ของผมครับ!
 
-<!--
-**ssahtam/ssahtam** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+### 💻 เกี่ยวกับผม
+- นักศึกษาคณะวิศวกรรมศาสตร์คอมพิวเตอร์ (CPE)
+- สนใจด้าน [ใส่ความสนใจ เช่น Web Development, Backend, AI]
+- โปรเจกต์ที่ภาคภูมิใจ: [ใส่ชื่อโปรเจกต์ของคุณ เช่น Petanque Management System]
 
-Here are some ideas to get you started:
+### 🛠️ ทักษะที่ใช้
+- HTML, CSS, JavaScript
+- Supabase, SQL
+- [ทักษะอื่นๆ]
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+---
+ติดต่อผมได้ที่: ssahtam@gmail.com
