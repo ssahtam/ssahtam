@@ -1,0 +1,15 @@
+{
+  "name": "กีฬาภายใน CPE",
+  "short_name": "CPE Sports",
+  "description": "ตารางแข่งขันและคะแนนสด กีฬาภายในวิศวกรรมคอมพิวเตอร์",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f2f5f8",
+  "theme_color": "#9e1b22",
+  "lang": "th",
+  "icons": [
+    { "src": "cpe-logo.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "cpe-logo.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

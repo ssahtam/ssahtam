@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>ระบบจัดการ | CPE Sports</title>
+<link rel="icon" href="cpe-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--red:#9e1b22;--red2:#c93341;--g:#05864a;--b:#2868cf;--line:#e2e6e8}
+*{box-sizing:border-box}
+body{margin:0;font-family:Kanit,sans-serif;color:#1c1c1c;background:#eef1f2}
+.gate{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.gbox{width:100%;max-width:370px;padding:36px 30px;border-radius:20px;background:#fff;box-shadow:0 14px 40px rgba(0,0,0,.1);text-align:center}
+.gbox img{width:80px;margin-bottom:12px}
+.gbox h1{margin:0 0 4px;color:var(--red);font-size:1.25rem}
+.gbox p{margin:0 0 20px;color:#7d8582;font-size:.86rem}
+.gbox input{width:100%;padding:12px 16px;border:1.5px solid var(--line);border-radius:11px;font-family:inherit;font-size:1rem;text-align:center}
+.gbox input:focus{outline:none;border-color:var(--red)}
+.gbox button{width:100%;margin-top:12px;padding:12px;border:none;border-radius:11px;background:var(--red);color:#fff;font-family:inherit;font-size:1rem;cursor:pointer}
+.err{margin-top:10px;color:#c62b2b;font-size:.85rem;min-height:20px}
+.panel{max-width:1220px;margin:auto;padding:24px 16px 70px}
+.bar{display:flex;align-items:center;gap:11px;flex-wrap:wrap;padding:14px 17px;margin-bottom:15px;border-radius:15px;background:#fff;box-shadow:0 4px 16px rgba(0,0,0,.05)}
+.bar img{width:42px}.bar h1{flex:1;margin:0;color:var(--red);font-size:1.15rem}
+.btn{padding:9px 16px;border:none;border-radius:10px;font-family:inherit;font-size:.88rem;font-weight:500;cursor:pointer;transition:.15s}
+.btn:hover{filter:brightness(1.08)}
+.b-red{background:var(--red);color:#fff}.b-grn{background:var(--g);color:#fff}
+.b-blu{background:var(--b);color:#fff}.b-gry{background:#e7ebe9;color:#4b5652}
+.b-out{background:#fff;border:1.5px solid var(--line);color:#5f6965}
+.tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px}
+.tabs button{flex:1;min-width:130px;padding:11px 20px;border:none;border-radius:12px;background:#fff;color:#5f6965;font-family:inherit;font-size:.95rem;font-weight:500;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.05)}
+.tabs button.on{background:var(--red);color:#fff}
+.tip{padding:12px 16px;margin-bottom:16px;border-radius:12px;background:#e8f3ff;border:1px solid #bcd9f5;color:#2a5580;font-size:.86rem;line-height:1.7}
+.box{margin-bottom:16px;border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 4px 16px rgba(0,0,0,.05)}
+.bh{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:11px 14px;background:linear-gradient(110deg,var(--red),var(--red2))}
+.bh .nm{flex:1;min-width:170px;padding:8px 12px;border:none;border-radius:8px;font-family:inherit;font-size:.97rem;font-weight:600;color:var(--red)}
+.bh input[type=color]{width:40px;height:34px;padding:2px;border:none;border-radius:8px;background:#fff;cursor:pointer}
+.rl{display:flex;align-items:center;gap:5px;padding:4px 9px;border-radius:8px;background:rgba(255,255,255,.2);color:#fff;font-size:.78rem}
+.rl input{width:40px;padding:4px;border:none;border-radius:5px;font-family:inherit;font-size:.82rem;text-align:center}
+.bb{padding:12px 14px 15px;overflow-x:auto}
+.bf{display:flex;gap:7px;flex-wrap:wrap;padding:0 14px 14px}
+table.g{width:100%;border-collapse:collapse;min-width:640px}
+table.g th{padding:8px 5px;color:#6b7471;font-size:.8rem;font-weight:600;white-space:nowrap;text-align:left}
+table.g td{padding:5px;border-top:1px solid var(--line)}
+table.g input,table.g select{width:100%;padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;font-family:inherit;font-size:.88rem;background:#fff}
+table.g input:focus,table.g select:focus{outline:none;border-color:var(--red)}
+.xb{width:30px;height:30px;border:none;border-radius:7px;background:#fdeaea;color:#c33;font-size:1rem;cursor:pointer}
+.tst{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(90px);padding:13px 25px;border-radius:11px;background:#1f2422;color:#fff;font-size:.9rem;opacity:0;transition:.3s;z-index:60}
+.tst.show{transform:translateX(-50%);opacity:1}
+.hidden{display:none}
+.sm{color:#8b9491;font-size:.82rem}
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate">
+  <div class="gbox">
+    <img src="cpe-logo.png" alt="CPE">
+    <h1>ระบบจัดการกีฬาภายใน</h1>
+    <p>สำหรับผู้ดูแลระบบเท่านั้น</p>
+    <input type="password" id="pw" placeholder="รหัสผ่านแอดมิน" onkeydown="if(event.key==='Enter')login()">
+    <button onclick="login()">เข้าสู่ระบบ</button>
+    <div class="err" id="err"></div>
+  </div>
+</div>
+
+<div class="panel hidden" id="panel">
+  <div class="bar">
+    <img src="cpe-logo.png" alt="">
+    <h1>ระบบจัดการข้อมูล</h1>
+    <span class="sm" id="stat"></span>
+    <button class="btn b-out" onclick="window.open('index.html','_blank')">👁️ ดูหน้าเว็บ</button>
+    <button class="btn b-out" onclick="window.open('ref.html','_blank')">📱 หน้ากรรมการ</button>
+    <button class="btn b-gry" onclick="chgPin()">🔑 เปลี่ยนรหัส</button>
+  </div>
+
+  <div class="tabs">
+    <button class="on" id="tb1" onclick="tab(1)">🏅 กีฬา & ทีม</button>
+    <button id="tb2" onclick="tab(2)">📅 แมตช์การแข่งขัน</button>
+  </div>
+
+  <div id="t1">
+    <div class="tip"><b>ขั้นตอน:</b> สร้างประเภทกีฬา → เพิ่มทีมในแต่ละประเภท → ไปแท็บ "แมตช์" เพื่อจับคู่แข่ง<br>
+    ช่อง <b>ชั้นปี</b> ใช้สำหรับตัวกรองบนหน้าเว็บ (เช่น ปี 1, ปี 2)</div>
+    <div id="spHost"></div>
+    <button class="btn b-red" onclick="newSport()">＋ เพิ่มประเภทกีฬา</button>
+  </div>
+
+  <div id="t2" class="hidden">
+    <div class="tip"><b>เพิ่มแมตช์:</b> เลือกประเภทกีฬา → ใส่วันที่/เวลา/สนาม → เลือกคู่แข่ง → กดบันทึก<br>
+    คะแนนให้กรรมการกรอกผ่าน <b>ref.html</b> บนมือถือที่สนาม</div>
+    <div class="box">
+      <div class="bh"><span style="color:#fff;font-weight:600">➕ เพิ่มแมตช์ใหม่</span></div>
+      <div class="bb"><table class="g"><tbody><tr>
+        <td style="width:20%"><select id="nSp" onchange="fillTeams()"></select></td>
+        <td style="width:16%"><input type="date" id="nDate"></td>
+        <td style="width:12%"><input type="text" id="nTime" value="17:00" placeholder="17:00"></td>
+        <td style="width:10%"><input type="number" id="nCourt" value="1" min="1"></td>
+        <td><select id="nA"></select></td>
+        <td style="width:40px;text-align:center;color:#8b9491">VS</td>
+        <td><select id="nB"></select></td>
+        <td style="width:90px"><button class="btn b-grn" onclick="addMatch()">บันทึก</button></td>
+      </tr></tbody></table></div>
+    </div>
+    <div class="box">
+      <div class="bh"><span style="color:#fff;font-weight:600">📋 แมตช์ทั้งหมด</span>
+        <select id="fSp" onchange="drawM()" style="padding:7px 11px;border:none;border-radius:8px;font-family:inherit"></select></div>
+      <div class="bb" id="mHost"></div>
+    </div>
+  </div>
+</div>
+
+<div class="tst" id="tst"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script>
+let PIN='',SP=[],TM=[],MT=[];
+
+async function login(){
+  const p=document.getElementById('pw').value;
+  const { data, error } = await sb.rpc('verify_pin', { p_pin: p, p_role: 'admin' });
+  if(error||!data){document.getElementById('err').textContent='❌ รหัสผ่านไม่ถูกต้อง';return;}
+  PIN=p;sessionStorage.setItem('cpe_adm',p);open_();
+}
+function open_(){
+  document.getElementById('gate').classList.add('hidden');
+  document.getElementById('panel').classList.remove('hidden');
+  load();
+}
+(()=>{const s=sessionStorage.getItem('cpe_adm');if(s){PIN=s;open_();}})();
+function tab(n){
+  document.getElementById('t1').classList.toggle('hidden',n!==1);
+  document.getElementById('t2').classList.toggle('hidden',n!==2);
+  document.getElementById('tb1').classList.toggle('on',n===1);
+  document.getElementById('tb2').classList.toggle('on',n===2);
+}
+
+async function load(){
+  const [s,t,m]=await Promise.all([
+    sb.from('sports').select('*').order('sort_order'),
+    sb.from('teams').select('*').order('sort_order'),
+    sb.from('matches').select('*').order('match_date').order('match_time').order('court')
+  ]);
+  SP=s.data||[];TM=t.data||[];MT=m.data||[];
+  document.getElementById('stat').textContent=
+    `${SP.length} กีฬา · ${TM.length} ทีม · ${MT.length} แมตช์`;
+  drawSp();fillSel();drawM();
+}
+
+/* ---------- กีฬา & ทีม ---------- */
+function drawSp(){
+  document.getElementById('spHost').innerHTML=SP.map(s=>{
+    const ts=TM.filter(t=>t.sport_id===s.id);
+    return `<div class="box">
+      <div class="bh" style="background:linear-gradient(110deg,${s.color},${s.color}dd)">
+        <input class="nm" value="${esc(s.name)}" onchange="saveSport('${s.id}',this.value,null)">
+        <input type="color" value="${s.color}" onchange="saveSport('${s.id}',null,this.value)">
+        <span class="rl">ชนะ<input type="number" value="${s.win_pt}" onchange="savePt('${s.id}','w',this.value)">
+          เสมอ<input type="number" value="${s.draw_pt}" onchange="savePt('${s.id}','d',this.value)">
+          แพ้<input type="number" value="${s.lose_pt}" onchange="savePt('${s.id}','l',this.value)"></span>
+        <button class="btn b-gry" onclick="delSport('${s.id}','${esc(s.name)}')">🗑 ลบ</button>
+      </div>
+      <div class="bb"><table class="g"><thead><tr><th>ชื่อทีม</th><th style="width:130px">ชั้นปี</th><th style="width:50px"></th></tr></thead>
+        <tbody>${ts.map(t=>`<tr>
+          <td><input value="${esc(t.name)}" onchange="saveTeam('${t.id}','${s.id}',this.value,null)"></td>
+          <td><input value="${esc(t.year_group||'')}" placeholder="ปี 1" onchange="saveTeam('${t.id}','${s.id}',null,this.value)"></td>
+          <td style="text-align:center"><button class="xb" onclick="delTeam('${t.id}','${esc(t.name)}')">✕</button></td>
+        </tr>`).join('')||'<tr><td colspan="3" class="sm">ยังไม่มีทีม</td></tr>'}</tbody></table></div>
+      <div class="bf"><button class="btn b-out" onclick="newTeam('${s.id}')">＋ เพิ่มทีม</button></div>
+    </div>`;}).join('')||'<p class="sm">ยังไม่มีประเภทกีฬา</p>';
+}
+async function rpc(fn,args,msg){
+  const {error}=await sb.rpc(fn,{p_pin:PIN,...args});
+  if(error){toast('❌ '+error.message);return false;}
+  if(msg)toast(msg);await load();return true;
+}
+async function newSport(){
+  const n=prompt('ชื่อประเภทกีฬา เช่น "เปตอง — ทีมชาย"');if(!n)return;
+  await rpc('admin_sport',{p_id:null,p_name:n,p_color:'#9e1b22',p_w:3,p_d:1,p_l:0,p_sort:SP.length},'✅ เพิ่มแล้ว');
+}
+async function saveSport(id,name,color){
+  const s=SP.find(x=>x.id===id);
+  await rpc('admin_sport',{p_id:id,p_name:name??s.name,p_color:color??s.color,
+    p_w:s.win_pt,p_d:s.draw_pt,p_l:s.lose_pt,p_sort:s.sort_order},'💾 บันทึกแล้ว');
+}
+async function savePt(id,k,v){
+  const s=SP.find(x=>x.id===id),o={w:s.win_pt,d:s.draw_pt,l:s.lose_pt};o[k]=+v;
+  await rpc('admin_sport',{p_id:id,p_name:s.name,p_color:s.color,
+    p_w:o.w,p_d:o.d,p_l:o.l,p_sort:s.sort_order},'💾 บันทึกแล้ว');
+}
+async function delSport(id,n){
+  if(!confirm(`ลบ "${n}" พร้อมทีมและแมตช์ทั้งหมด?`))return;
+  await rpc('admin_del',{p_table:'sports',p_id:id},'🗑 ลบแล้ว');
+}
+async function newTeam(sid){
+  const n=prompt('ชื่อทีม');if(!n)return;
+  const y=prompt('ชั้นปี (เว้นว่างได้)','')||'';
+  await rpc('admin_team',{p_id:null,p_sport:sid,p_name:n,p_year:y,
+    p_sort:TM.filter(t=>t.sport_id===sid).length},'✅ เพิ่มทีมแล้ว');
+}
+async function saveTeam(id,sid,name,yr){
+  const t=TM.find(x=>x.id===id);
+  await rpc('admin_team',{p_id:id,p_sport:sid,p_name:name??t.name,
+    p_year:yr??t.year_group,p_sort:t.sort_order},'💾 บันทึกแล้ว');
+}
+async function delTeam(id,n){
+  if(!confirm(`ลบทีม "${n}"?`))return;
+  await rpc('admin_del',{p_table:'teams',p_id:id},'🗑 ลบแล้ว');
+}
+
+/* ---------- แมตช์ ---------- */
+function fillSel(){
+  const o=SP.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('');
+  document.getElementById('nSp').innerHTML=o;
+  document.getElementById('fSp').innerHTML='<option value="all">ทุกประเภท</option>'+o;
+  if(!document.getElementById('nDate').value)
+    document.getElementById('nDate').value=new Date().toISOString().slice(0,10);
+  fillTeams();
+}
+function fillTeams(){
+  const sid=document.getElementById('nSp').value;
+  const o=TM.filter(t=>t.sport_id===sid).map(t=>`<option value="${t.id}">${esc(t.name)}</option>`).join('');
+  document.getElementById('nA').innerHTML=o;
+  document.getElementById('nB').innerHTML=o;
+}
+async function addMatch(){
+  const a=document.getElementById('nA').value,b=document.getElementById('nB').value;
+  if(!a||!b)return toast('❌ ยังไม่มีทีมในประเภทนี้');
+  if(a===b)return toast('❌ เลือกทีมซ้ำกัน');
+  await rpc('admin_match',{p_id:null,p_sport:document.getElementById('nSp').value,
+    p_date:document.getElementById('nDate').value,p_time:document.getElementById('nTime').value,
+    p_court:+document.getElementById('nCourt').value,p_a:a,p_b:b},'✅ เพิ่มแมตช์แล้ว');
+}
+function drawM(){
+  const f=document.getElementById('fSp').value;
+  const arr=MT.filter(m=>f==='all'||m.sport_id===f);
+  document.getElementById('mHost').innerHTML=`<table class="g">
+    <thead><tr><th style="width:150px">วันที่</th><th style="width:70px">เวลา</th><th style="width:60px">สนาม</th>
+    <th>คู่แข่งขัน</th><th style="width:90px">ผล</th><th style="width:90px">สถานะ</th><th style="width:50px"></th></tr></thead>
+    <tbody>${arr.map(m=>{
+      const a=TM.find(t=>t.id===m.team_a),b=TM.find(t=>t.id===m.team_b),
+        sp=SP.find(s=>s.id===m.sport_id)||{};
+      return `<tr>
+        <td class="sm">${thDate(m.match_date)}</td>
+        <td class="sm">${esc(m.match_time)}</td>
+        <td class="sm" style="text-align:center">${m.court}</td>
+        <td>${esc(a?.name||'?')} <span class="sm">vs</span> ${esc(b?.name||'?')}
+          <div class="sm" style="color:${sp.color}">${esc(sp.name||'')}</div></td>
+        <td style="text-align:center;font-weight:600;color:var(--red)">
+          ${m.score_a!=null?`${m.score_a} : ${m.score_b}`:'–'}</td>
+        <td class="sm">${m.status==='done'?'✅ จบแล้ว':m.status==='live'?'🔴 กำลังแข่ง':'⏳ รอแข่ง'}</td>
+        <td style="text-align:center"><button class="xb" onclick="delMatch('${m.id}')">✕</button></td>
+      </tr>`;}).join('')||'<tr><td colspan="7" class="sm">ยังไม่มีแมตช์</td></tr>'}</tbody></table>`;
+}
+async function delMatch(id){
+  if(!confirm('ลบแมตช์นี้?'))return;
+  await rpc('admin_del',{p_table:'matches',p_id:id},'🗑 ลบแล้ว');
+}
+
+/* ---------- เปลี่ยนรหัส ---------- */
+async function chgPin(){
+  const w=prompt('เปลี่ยนรหัสอะไร?\nพิมพ์ "ref" = PIN กรรมการ\nพิมพ์ "admin" = รหัสแอดมิน');
+  if(!w)return;
+  const key=w==='admin'?'admin_pin':'referee_pin';
+  const nv=prompt(key==='referee_pin'?'PIN กรรมการใหม่ (4 หลัก)':'รหัสแอดมินใหม่');
+  if(!nv)return;
+  if(key==='referee_pin'&&!/^\d{4}$/.test(nv))return toast('❌ PIN ต้องเป็นตัวเลข 4 หลัก');
+  const {error}=await sb.rpc('admin_setpin',{p_pin:PIN,p_key:key,p_new:nv});
+  if(error)return toast('❌ '+error.message);
+  toast('🔑 เปลี่ยนรหัสแล้ว');
+  if(key==='admin_pin'){PIN=nv;sessionStorage.setItem('cpe_adm',nv);}
+}
+
+sb.channel('adm-live').on('postgres_changes',
+  {event:'*',schema:'public',table:'matches'},load).subscribe();
+
+let tt;function toast(m){const t=document.getElementById('tst');t.textContent=m;t.classList.add('show');
+  clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2400);}
+</script>
+</body>
+</html>
